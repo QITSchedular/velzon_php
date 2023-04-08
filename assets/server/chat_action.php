@@ -1,0 +1,48 @@
+<?php
+session_start();
+include ('Chat.php');
+$chat = new Chat();
+if($_POST['action'] == 'update_user_list') {
+	$chatUsers = $chat->chatUsers($_SESSION['emp_code']);
+	$data = array(
+		"profileHTML" => $chatUsers,	
+	);
+	echo json_encode($data);	
+}
+if($_POST['action'] == 'insert_chat') {
+	$chat->insertChat($_POST['to_user_id'], $_SESSION['emp_code'], $_POST['chat_message']);
+}
+if($_POST['action'] == 'show_chat') {
+	$chat->showUserChat($_SESSION['emp_code'], $_POST['to_user_id']);
+}
+if($_POST['action'] == 'update_user_chat') {
+	$conversation = $chat->getUserChat($_SESSION['emp_code'], $_POST['to_user_id']);
+	$data = array(
+		"conversation" => $conversation			
+	);
+	echo json_encode($data);
+}
+if($_POST['action'] == 'update_unread_message') {
+	$count = $chat->getUnreadMessageCount($_POST['to_user_id'], $_SESSION['emp_code']);
+	$data = array(
+		"count" => $count			
+	);
+	echo json_encode($data);
+}
+if($_POST['action'] == 'update_typing_status') {
+	$chat->updateTypingStatus($_POST["is_type"], $_SESSION["login_details_id"]);
+}
+if($_POST['action'] == 'delete_chat_message') {
+	$chat->delmessage($_POST["id"]);
+}
+if($_POST['action'] == 'reassign_user') {
+	$chat->reassign_user($_SESSION["emp_code"]);
+}
+if($_POST['action'] == 'show_typing_status') {
+	$message = $chat->fetchIsTypeStatus($_POST['to_user_id']);
+	$data = array(
+		"message" => $message			
+	);
+	echo json_encode($data);
+}
+?>

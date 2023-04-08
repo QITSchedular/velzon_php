@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>cookie</title>
+</head>
+
+<body onload="checkcookie()">
+    <script>
+        function setc() {
+            var a = document.querySelector("#ch1")
+            var uname = document.querySelector("#txt1")
+            var pass = document.querySelector("#txt2")
+
+
+            if (a.checked == true) {
+                document.cookie = "username=" + uname.value
+                document.cookie = "password=" + pass.value
+            }
+        }
+
+        function checkcookie() {
+            var uname = document.querySelector("#txt1")
+            var pass = document.querySelector("#txt2")
+            if (document.cookie == "") {} else {
+                uname.value = document.cookie.split(";")[0].split("=")[1]
+                pass.value = document.cookie.split(";")[1].split("=")[1]
+            }
+        }
+
+        function valid() {
+            var uname = document.querySelector("#txt1")
+            var pass = document.querySelector("#txt2")
+            if (uname.value == "") {
+                alert("please enter username")
+                return false;
+            }
+            if (pass.value == "") {
+                alert("please enter password")
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <center>
+        <h1>log in</h1>
+        <form onsubmit="valid()">
+            username : <input type="text" name="uname" id="txt1"><br><br> password : <input type="password" name="pass" id="txt2"><br><br>
+            <input type="checkbox" name="ch1" id="ch1"> remeber my id <br><br>
+
+            <input type="submit" value="login" id="login" onclick="setc()">
+        </form>
+    </center>
+</body>
+
+</html>
